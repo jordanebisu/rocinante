@@ -28,8 +28,28 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-. /usr/local/libexec/rocinante/common.sh
-. /usr/local/etc/rocinante.conf
+. /usr/os_check.sh
+
+# Check which OS is running.
+get_os
+
+get_os() {
+getOs=$(uname -o)
+
+case $getOs in
+GNU/Linux)
+    . /usr/libexec/rocinante/common.sh
+    . /etc/rocinante/conf
+    ;;
+FreeBSD)
+    . /usr/local/libexec/rocinante/common.sh
+    . /usr/local/etc/rocinante.conf
+    ;;
+*)
+    echo "OS not supported."
+    ;;
+esac
+}
 
 zfs_usage() {
     error_notify "Usage: rocinante zfs command [args]" 

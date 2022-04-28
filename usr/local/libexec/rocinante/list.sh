@@ -28,8 +28,25 @@
 # OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-. /usr/local/libexec/rocinante/common.sh
-. /usr/local/etc/rocinante.conf
+# Check which OS is running in order to read in the correct file.
+
+get_os() {
+getOs=$(uname -o)
+
+case $getOs in
+GNU/Linux)
+    . /usr/libexec/rocinante/common.sh
+    . /etc/rocinante/conf
+    ;;
+FreeBSD)
+    . /usr/local/libexec/rocinante/common.sh
+    . /usr/local/etc/rocinante.conf
+    ;;
+*)
+    echo "OS not supported."
+    ;;
+esac
+}
 
 list_usage() {
     error_exit "Usage: rocinante list"
